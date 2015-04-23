@@ -59,7 +59,7 @@ class Curlcsv {
 }
 
 $curl_from_csv = new Curlcsv();
-$upload_file = 'missing_vici.csv';
+$upload_file = 'encoded_urls.csv';
 
 $csv = csv_to_array($upload_file);
 foreach($csv as $post_msg) {
