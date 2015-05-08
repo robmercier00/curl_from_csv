@@ -26,13 +26,17 @@ class Curlcsv {
 	}
 
 	function do_http_post($url) {
+		// explode the url so that we have separate url and post data
+		$u_a = explode('?', $url);
 	    echo "\nIn do_http_post() function:\n";
 	    //open connection
 	    $ch = curl_init();
 	    //set the url
-	    curl_setopt($ch, CURLOPT_URL, $url);
+	    curl_setopt($ch, CURLOPT_URL, $u_a[0].'?');
 	    // Tell curl to use HTTP POST. must be left unset if you need to use "multipart/form-data"
 	    curl_setopt($ch, CURLOPT_POST, true);
+	    // set the post data
+	    curl_setopt($ch, CURLOPT_POSTFIELDS, $u_a[1]);
 	    //Don't need headers returned. set to true if you want http status code
 	    curl_setopt($ch, CURLOPT_HEADER, true);
 	    //but want the response returned
@@ -59,12 +63,14 @@ class Curlcsv {
 }
 
 $curl_from_csv = new Curlcsv();
-$upload_file = 'encoded_urls.csv';
+$upload_file = 'filename.csv';
 
-$csv = csv_to_array($upload_file);
-foreach($csv as $post_msg) {
-	$post_log = $curl_from_csv->do_http_post($post_msg['msg'])
-	echo $post_msg['msg'] . "\n" . $post_log . "\r\n";
+$csv = $curl_from_csv->csv_to_array($upload_file);
+foreach($csv as $k => $post_msg) {
+	foreach($post_msg as $msg) {
+		$post_log = $curl_from_csv->do_http_post($msg);
+		echo $msg . "\n" . $post_log . "\r\n";
+	}
 }
 
 ?>
