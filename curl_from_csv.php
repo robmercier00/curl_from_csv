@@ -26,7 +26,7 @@ class Curlcsv {
 	}
 
 	function do_http_post($url) {
-		// explode the url so that we have separate url and post data
+		// explode so that we have url and post data separately
 		$u_a = explode('?', $url);
 	    echo "\nIn do_http_post() function:\n";
 	    //open connection
@@ -35,7 +35,7 @@ class Curlcsv {
 	    curl_setopt($ch, CURLOPT_URL, $u_a[0].'?');
 	    // Tell curl to use HTTP POST. must be left unset if you need to use "multipart/form-data"
 	    curl_setopt($ch, CURLOPT_POST, true);
-	    // set the post data
+	    // set post data
 	    curl_setopt($ch, CURLOPT_POSTFIELDS, $u_a[1]);
 	    //Don't need headers returned. set to true if you want http status code
 	    curl_setopt($ch, CURLOPT_HEADER, true);
